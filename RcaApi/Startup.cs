@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Quipu.RcaApiBase.OpenApi.Controllers;
+using Serilog;
+using System.Reflection;
+
+
+using System.Text.Json.Serialization;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace RcaApi
 {
@@ -27,7 +37,22 @@ namespace RcaApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            var config = new ConfigurationBuilder()
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+
+            services.AddControllersWithViews();
+
+            services.AddControllers(_ => RcaApiBase.Extensions.SetAuthorizeFilterToEndpoints(_, config))
+                .AddJsonOptions(x =>
+                        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+            Log.Information($"Adding controllers from Assembly: {typeof(ApplicationsApiController).Assembly} ");
+            services.AddControllers()
+                .AddApplicationPart(typeof(ApplicationsApiController).Assembly)
+                .AddControllersAsServices();
+            Log.Information($"Added controllers from Assembly: {typeof(ApplicationsApiController).Assembly} ");
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RcaApi", Version = "v1" });

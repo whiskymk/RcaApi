@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace RcaApiBase.Config
 {
-    class IS4Config
+    public class IS4Config
     {
+        public string Authority { get; set; }
+        public string Audience { get; set; }
     }
 }
