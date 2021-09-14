@@ -29,5 +29,16 @@ namespace RcaApiBase
                 options.Filters.Add(filter);
             }
         }
+
+        public static void AddLoader(this IServiceCollection services)
+        {
+            services.AddScoped<CUD>();
+
+            services.AddScoped<GetAllCaseTypeFlowQuery>();
+            services.AddScoped<GetAllCaseTypeQuery>();
+            services.AddScoped<GetCaseTypeByCodeQuery>();
+            services.AddScoped<GetReferenceValueByCodeQuery>();
+            services.AddScoped<GetReferenceValueByIdQuery>();
+        }
     }
 }
