@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Quipu.RcaApiBase.OpenApi.Controllers;
 using Serilog;
 using System.Reflection;
-
+using RcaApiBase;
 
 using System.Text.Json.Serialization;
 using System.IO;
@@ -42,6 +42,12 @@ namespace RcaApi
                  .Build();
 
             services.AddControllersWithViews();
+
+          //  services.SetIdentityServerTokenValidation(config);
+
+            services.AddLoader();
+            services.SetupDbContext(config);
+            services.SetupDbAdoNet(config);
 
             services.AddControllers(_ => RcaApiBase.Extensions.SetAuthorizeFilterToEndpoints(_, config))
                 .AddJsonOptions(x =>

@@ -17,23 +17,27 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     {
         string connectionString = ConnectionString.CName;
 
-        public IEnumerable<CQRSCaseTypeFlow> GetAllCaseTypeFlow()
+        public IEnumerable<CQRSApplication> GetAllApplications()
         {
-            List<CQRSCaseTypeFlow> lstData = new List<CQRSCaseTypeFlow>();
+            List<CQRSApplication> lstData = new List<CQRSApplication>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("Select * from CaseTypeFlow", con);
+                SqlCommand cmd = new SqlCommand("Select * from Applications", con);
                 cmd.CommandType = CommandType.Text;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    CQRSCaseTypeFlow data = new CQRSCaseTypeFlow();
-                    data.Id = Convert.ToInt32(rdr["Id"]);
-                    data.CaseTypeCode = rdr["CaseTypeCode"].ToString();
-                    data.SMDefinitionCode = rdr["SMDefinitionCode"].ToString();
-                    data.OperationTypeId = Convert.ToInt32(rdr["OperationTypeId"]);
+                    CQRSApplication data = new CQRSApplication();
+                    data.Id = rdr["id"].ToString();
+                    data.InternalStatus = rdr["InternalStatus"].ToString();
+                    data.ItemType= rdr["ItemType"].ToString();
+                    data.Owner= rdr["Owner"].ToString();
+                    data.Status= rdr["Status"].ToString();
+                    data.Title = rdr["Title"].ToString();
+                    data.created = rdr["created"].ToString();
+
 
                     lstData.Add(data);
                 }

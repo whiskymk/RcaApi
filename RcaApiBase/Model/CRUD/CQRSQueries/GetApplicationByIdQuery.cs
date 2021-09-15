@@ -17,23 +17,26 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     {
         string connectionString = ConnectionString.CName;
 
-        public CQRSCaseTypeFlow GetCaseTypeFlowByIdData(int? id)
+        public CQRSApplication GetApplicationByIdData(string? id)
         {
-            CQRSCaseTypeFlow data = new CQRSCaseTypeFlow();
+            CQRSApplication data = new CQRSApplication();
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT * FROM CaseTypeFlow WHERE Id= " + id;
+                string sqlQuery = "SELECT * FROM Applications WHERE Id= " + id;
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    data.Id = Convert.ToInt32(rdr["Id"]);
-                    data.CaseTypeCode = rdr["CaseTypeCode"].ToString();
-                    data.SMDefinitionCode = rdr["SMDefinitionCode"].ToString();
-                    data.OperationTypeId = Convert.ToInt32(rdr["OperationTypeId"]);
+                    data.Id = rdr["id"].ToString();
+                    data.InternalStatus = rdr["InternalStatus"].ToString();
+                    data.ItemType = rdr["ItemType"].ToString();
+                    data.Owner = rdr["Owner"].ToString();
+                    data.Status = rdr["Status"].ToString();
+                    data.Title = rdr["Title"].ToString();
+                    data.created = rdr["created"].ToString();
                 }
             }
             return data;

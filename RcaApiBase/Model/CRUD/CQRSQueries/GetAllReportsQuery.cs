@@ -17,22 +17,27 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     {
         string connectionString = ConnectionString.CName;
 
-        public IEnumerable<CQRSCaseType> GetAllCaseType()
+        public IEnumerable<CQRSReports> GetAllReports()
         {
-            List<CQRSCaseType> lstData = new List<CQRSCaseType>();
+            List<CQRSReports> lstData = new List<CQRSReports>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("Select * from CaseType", con);
+                SqlCommand cmd = new SqlCommand("Select * from Reports", con);
                 cmd.CommandType = CommandType.Text;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    CQRSCaseType data = new CQRSCaseType();
-                    data.Code = rdr["Code"].ToString();
-                    data.Description = rdr["Description"].ToString();
-                    data.FieldDefinition = rdr["FieldDefinition"].ToString();
+                    CQRSReports data = new CQRSReports();
+                    data.Id = rdr["id"].ToString();
+                    data.InternalStatus = rdr["InternalStatus"].ToString();
+                    data.ItemType = rdr["ItemType"].ToString();
+                    data.Owner = rdr["Owner"].ToString();
+                    data.Status = rdr["Status"].ToString();
+                    data.Title = rdr["Title"].ToString();
+                    data.created = rdr["created"].ToString();
+
                     lstData.Add(data);
                 }
                 con.Close();

@@ -13,30 +13,27 @@ using System.Data.SqlClient;
 
 namespace RcaApiBase.Model.CRUD.CQRSQueries
 {
-    public class GetReportByIdQuery
+    public class GetCatalogueByTypeQuery
     {
         string connectionString = ConnectionString.CName;
 
-        public CQRSReports GetReportByIdData(string? id)
+        public CQRSCatalogue GetCatalogueByTypeData(string? type)
         {
-            CQRSReports data = new CQRSReports();
+            CQRSCatalogue data = new CQRSCatalogue();
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT * FROM Reports WHERE Id= " + id;
+                string sqlQuery = "SELECT * FROM Catalogue WHERE ItemType= '" + type + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    data.Id = rdr["id"].ToString();
-                    data.InternalStatus = rdr["InternalStatus"].ToString();
+                    data.Code = rdr["Code"].ToString();
+                    data.ParentCode = rdr["ParentCode"].ToString();
+                    data.IsFavorite = (bool)rdr["IsFavorite"];
                     data.ItemType = rdr["ItemType"].ToString();
-                    data.Owner = rdr["Owner"].ToString();
-                    data.Status = rdr["Status"].ToString();
-                    data.Title = rdr["Title"].ToString();
-                    data.created = rdr["created"].ToString();
                 }
             }
             return data;

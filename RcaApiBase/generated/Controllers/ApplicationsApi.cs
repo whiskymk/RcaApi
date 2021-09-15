@@ -17,6 +17,8 @@ using System.ComponentModel.DataAnnotations;
 using Quipu.RcaApiBase.OpenApi.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
+using RcaApiBase.Model.CRUD.CQRSQueries;
+using RcaApiBase.Model.CRUD;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -26,6 +28,14 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     [ApiController]
     public class ApplicationsApiController : ControllerBase
     {
+        private readonly GetAllApplicationsQuery _getAllApplicationsQuery;
+        private readonly GetApplicationByIdQuery _getApplicationByIdQuery;
+        
+        public ApplicationsApiController(GetAllApplicationsQuery getAllApplicationsQuery, GetApplicationByIdQuery getApplicationByIdQuery)
+        {
+            _getAllApplicationsQuery = getAllApplicationsQuery;
+            _getApplicationByIdQuery = getApplicationByIdQuery;
+        }
         /// <summary>
         /// Get application by given id
         /// </summary>
@@ -40,18 +50,14 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(ModelCase), description: "Application type")]
         public virtual IActionResult ApplicationIdGet([FromRoute][Required] string id)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(ModelCase));
+          //  Log.Information($"Calling ApplicationIdGet with {id}");
 
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "{\n  \"internalStatus\" : \"internalStatus\",\n  \"owner\" : \"owner\",\n  \"itemType\" : \"itemType\",\n  \"created\" : \"2000-01-23\",\n  \"fieldsData\" : { },\n  \"id\" : \"id\",\n  \"title\" : \"title\",\n  \"status\" : \"status\"\n}";
+            
+            var res = _getApplicationByIdQuery.GetApplicationByIdData(id);
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ModelCase>(exampleJson)
-            : default(ModelCase);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            if (res != null)
+                return Ok(res);
+            else return Ok();
         }
 
         /// <summary>
@@ -121,18 +127,14 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<ModelCase>), description: "List of Applications")]
         public virtual IActionResult ApplicationsGet()
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<ModelCase>));
+            //  Log.Information($"Calling ApplicationsGet");
 
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"internalStatus\" : \"internalStatus\",\n  \"owner\" : \"owner\",\n  \"itemType\" : \"itemType\",\n  \"created\" : \"2000-01-23\",\n  \"fieldsData\" : { },\n  \"id\" : \"id\",\n  \"title\" : \"title\",\n  \"status\" : \"status\"\n}, {\n  \"internalStatus\" : \"internalStatus\",\n  \"owner\" : \"owner\",\n  \"itemType\" : \"itemType\",\n  \"created\" : \"2000-01-23\",\n  \"fieldsData\" : { },\n  \"id\" : \"id\",\n  \"title\" : \"title\",\n  \"status\" : \"status\"\n} ]";
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<ModelCase>>(exampleJson)
-            : default(List<ModelCase>);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var res = _getAllApplicationsQuery.GetAllApplications();
+
+            if (res != null)
+                return Ok(res);
+            else return Ok();
         }
     }
 }

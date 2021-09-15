@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Reflection;
 
-namespace ParameterizationStoreBase
+namespace RcaApiBase
 {
     public static class ConnectionString
     {

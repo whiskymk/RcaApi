@@ -17,6 +17,8 @@ using System.ComponentModel.DataAnnotations;
 using Quipu.RcaApiBase.OpenApi.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
+using RcaApiBase.Model.CRUD.CQRSQueries;
+using RcaApiBase.Model.CRUD;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -26,6 +28,12 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     [ApiController]
     public class CatalogueApiController : ControllerBase
     {
+        private readonly GetCatalogueByTypeQuery _getCatalogueByTypeQuery;
+
+        public CatalogueApiController(GetCatalogueByTypeQuery getCatalogueByTypeQuery)
+        {
+            _getCatalogueByTypeQuery = getCatalogueByTypeQuery;
+        }
         /// <summary>
         /// Localized description
         /// </summary>
@@ -90,18 +98,14 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<CatalogueItem>), description: "Available Catalogue")]
         public virtual IActionResult CatalogueTypeGet([FromRoute][Required] string type)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<CatalogueItem>));
+            //  Log.Information($"Calling ReportsGet");
 
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"itemType\" : \"Application\",\n  \"code\" : \"code\",\n  \"parentCode\" : \"parentCode\",\n  \"isFavorite\" : true\n}, {\n  \"itemType\" : \"Application\",\n  \"code\" : \"code\",\n  \"parentCode\" : \"parentCode\",\n  \"isFavorite\" : true\n} ]";
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<CatalogueItem>>(exampleJson)
-            : default(List<CatalogueItem>);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var res = _getCatalogueByTypeQuery.GetCatalogueByTypeData(type);
+
+            if (res != null)
+                return Ok(res);
+            else return Ok();
         }
 
         /// <summary>

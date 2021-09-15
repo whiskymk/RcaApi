@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RcaApiBase.Model.CRUD
 {
-    class CUD
+    public class CUD
     {
     }
 }

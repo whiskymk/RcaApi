@@ -8,10 +8,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RcaApi.Domain.CQRS
 {
-    class CQRSApplication
+    public class CQRSApplication
     {
         public string Id { get; set; }
-        public DateTime created { get; set; }
+        public string created { get; set; }
         public string Status { get; set; }
         public string Title { get; set; }
         public string ItemType { get; set; }
