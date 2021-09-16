@@ -43,7 +43,7 @@ namespace RcaApi
 
             services.AddControllersWithViews();
 
-          //  services.SetIdentityServerTokenValidation(config);
+            services.SetIdentityServerTokenValidation(config);
 
             services.AddLoader();
             services.SetupDbContext(config);
@@ -59,6 +59,9 @@ namespace RcaApi
                 .AddControllersAsServices();
             Log.Information($"Added controllers from Assembly: {typeof(ApplicationsApiController).Assembly} ");
 
+            services.AddConfigurations(config);
+            services.AddClient();
+            services.AddApis();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RcaApi", Version = "v1" });
@@ -76,6 +79,11 @@ namespace RcaApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

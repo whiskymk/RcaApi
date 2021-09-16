@@ -17,6 +17,7 @@ using System.ComponentModel.DataAnnotations;
 using Quipu.RcaApiBase.OpenApi.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
+using RcaApiBase.Model.ParamApi;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -26,6 +27,12 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     [ApiController]
     public class RegistrationProcessApiController : ControllerBase
     {
+        private readonly Loader _loader;
+
+        public RegistrationProcessApiController(Loader loader)
+        {
+            this._loader = loader;
+        }
         /// <summary>
         /// Gets fields definition for given item code catalogue
         /// </summary>
@@ -39,18 +46,10 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(FieldsDefinition), description: "OK")]
         public virtual IActionResult FieldsDefinitionItemCodeGet([FromRoute][Required] string itemCode)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(FieldsDefinition));
-
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "{\n  \"mandatoryFields\" : [ {\n    \"fieldName\" : \"fieldName\",\n    \"validators\" : [ {\n      \"validatorType\" : \"Warning\",\n      \"validatorEngine\" : \"Python\",\n      \"validatorText\" : \"validatorText\",\n      \"description\" : \"description\",\n      \"message\" : \"message\"\n    }, {\n      \"validatorType\" : \"Warning\",\n      \"validatorEngine\" : \"Python\",\n      \"validatorText\" : \"validatorText\",\n      \"description\" : \"description\",\n      \"message\" : \"message\"\n    } ],\n    \"dataType\" : \"int\",\n    \"fieldLabel\" : \"fieldLabel\",\n    \"description\" : \"description\",\n    \"fieldGroup\" : \"fieldGroup\",\n    \"fieldOrder\" : \"0\",\n    \"refValuesCode\" : \"refValuesCode\",\n    \"tags\" : [ {\n      \"code\" : \"code\",\n      \"parentCode\" : \"parentCode\"\n    }, {\n      \"code\" : \"code\",\n      \"parentCode\" : \"parentCode\"\n    } ]\n  }, {\n    \"fieldName\" : \"fieldName\",\n    \"validators\" : [ {\n      \"validatorType\" : \"Warning\",\n      \"validatorEngine\" : \"Python\",\n      \"validatorText\" : \"validatorText\",\n      \"description\" : \"description\",\n      \"message\" : \"message\"\n    }, {\n      \"validatorType\" : \"Warning\",\n      \"validatorEngine\" : \"Python\",\n      \"validatorText\" : \"validatorText\",\n      \"description\" : \"description\",\n      \"message\" : \"message\"\n    } ],\n    \"dataType\" : \"int\",\n    \"fieldLabel\" : \"fieldLabel\",\n    \"description\" : \"description\",\n    \"fieldGroup\" : \"fieldGroup\",\n    \"fieldOrder\" : \"0\",\n    \"refValuesCode\" : \"refValuesCode\",\n    \"tags\" : [ {\n      \"code\" : \"code\",\n      \"parentCode\" : \"parentCode\"\n    }, {\n      \"code\" : \"code\",\n      \"parentCode\" : \"parentCode\"\n    } ]\n  } ],\n  \"optionalFields\" : [ null, null ]\n}";
-
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<FieldsDefinition>(exampleJson)
-            : default(FieldsDefinition);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var res = _loader.GetFieldsDefinitionByCode(itemCode);
+            if (res != null)
+                return Ok(res);
+            else return Ok();
         }
 
         /// <summary>

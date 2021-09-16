@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcaApi", "RcaApi\RcaApi.csproj", "{B6DDCB52-CCA9-4D8B-A836-F6F222521BDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RcaApi", "RcaApi\RcaApi.csproj", "{B6DDCB52-CCA9-4D8B-A836-F6F222521BDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcaApiBase", "RcaApiBase\RcaApiBase.csproj", "{B83FA7BF-2CB0-4DEE-92AB-59ED377CF97D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RcaApiBase", "RcaApiBase\RcaApiBase.csproj", "{B83FA7BF-2CB0-4DEE-92AB-59ED377CF97D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcaApi.Domain", "RcaApi.Domain\RcaApi.Domain.csproj", "{B3A0734D-3B18-47FF-ACB9-DB3FFDD62209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RcaApi.Domain", "RcaApi.Domain\RcaApi.Domain.csproj", "{B3A0734D-3B18-47FF-ACB9-DB3FFDD62209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcaApi.EFCore", "RcaApi.EFCore\RcaApi.EFCore.csproj", "{6F3FBE4B-8639-4295-969D-83BCC0ECF02F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RcaApi.EFCore", "RcaApi.EFCore\RcaApi.EFCore.csproj", "{6F3FBE4B-8639-4295-969D-83BCC0ECF02F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParameterizationStore.Client", "ParameterizationStore.Client\ParameterizationStore.Client.csproj", "{2408F192-7E0F-455E-8093-4935531D5883}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6F3FBE4B-8639-4295-969D-83BCC0ECF02F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3FBE4B-8639-4295-969D-83BCC0ECF02F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3FBE4B-8639-4295-969D-83BCC0ECF02F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2408F192-7E0F-455E-8093-4935531D5883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2408F192-7E0F-455E-8093-4935531D5883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2408F192-7E0F-455E-8093-4935531D5883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2408F192-7E0F-455E-8093-4935531D5883}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

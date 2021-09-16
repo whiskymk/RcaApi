@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ParameterizationStore.Client\ParameterizationStore.Client.csproj" />
     <ProjectReference Include="..\RcaApi.Domain\RcaApi.Domain.csproj" />
     <ProjectReference Include="..\RcaApi.EFCore\RcaApi.EFCore.csproj" />
   </ItemGroup>
