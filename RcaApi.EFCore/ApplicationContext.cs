@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RcaApi.Domain;
 
 namespace RcaApi.EFCore
 {
@@ -12,6 +13,9 @@ namespace RcaApi.EFCore
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
         }
-        
+        public DbSet<Applications> Applications { get; set; }
+        public DbSet<Reports> Reports { get; set; }
+        public DbSet<Catalogue> Catalogues { get; set; }
+
     }
 }
