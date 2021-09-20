@@ -18,6 +18,9 @@ using Quipu.RcaApiBase.OpenApi.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
 using RcaApiBase.Model.ParamApi;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication;
+using System.Threading.Tasks;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -28,10 +31,11 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     public class RegistrationProcessApiController : ControllerBase
     {
         private readonly Loader _loader;
+        
 
         public RegistrationProcessApiController(Loader loader)
         {
-            this._loader = loader;
+            this._loader = loader;            
         }
         /// <summary>
         /// Gets fields definition for given item code catalogue
@@ -44,12 +48,30 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [ValidateModelState]
         [SwaggerOperation("FieldsDefinitionItemCodeGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(FieldsDefinition), description: "OK")]
-        public virtual IActionResult FieldsDefinitionItemCodeGet([FromRoute][Required] string itemCode)
+        public async virtual Task<IActionResult> FieldsDefinitionItemCodeGet([FromRoute][Required] string itemCode)
         {
-            var res = _loader.GetFieldsDefinitionByCode(itemCode);
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+            //HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+
+            //string accessToken = _tokenAcquisition.GetAccessTokenForUserAsync(;
+
+            if (accessToken != null && accessToken.Equals(string.Empty)==false)
+            {
+                var temp = await _loader.GetFieldDefinitionByCodeAsync(itemCode, accessToken);
+                if (temp != null)
+                    return Ok(temp);
+                else return Ok();
+            }
+            else
+            {
+                var res = _loader.GetFieldsDefinitionByCode(itemCode);
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
+           
         }
 
         /// <summary>
