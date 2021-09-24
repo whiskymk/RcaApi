@@ -26,6 +26,10 @@ namespace RcaApiBase.Model.ParamApi
         public async Task<Quipu.RcaApiBase.OpenApi.Models.FieldsDefinition> GetFieldDefinitionByCodeAsync(string code, string access_token)
         {
             string path = _apiClientSettings.Endpoint.BaseAddress + _apiClientSettings.Endpoint.Path + "Quipu-GmbH/ParameterizationStore/0.0.1/CaseType/" + code;
+            //_defaultApi.Configuration.AddApiKey("Authorization", access_token);
+            //_defaultApi.Configuration.AddApiKeyPrefix("Authorization", "Bearer");
+            _defaultApi.Configuration.AddDefaultHeader("Authorization", "Bearer " + access_token);
+            var caseType = _defaultApi.QuipuGmbHParameterizationStore001CaseTypeCodeGet(code);
             using (var client = new HttpClient())
             {
                 if(_apiClientSettings.Endpoint.UseJwtAuth)
