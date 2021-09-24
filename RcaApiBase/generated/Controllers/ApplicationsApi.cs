@@ -19,6 +19,11 @@ using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
 using RcaApiBase.Model.CRUD.CQRSQueries;
 using RcaApiBase.Model.CRUD;
+using RcaApiBase.Config;
+using RcaApiBase.Model.Map;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -30,11 +35,18 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     {
         private readonly GetAllApplicationsQuery _getAllApplicationsQuery;
         private readonly GetApplicationByIdQuery _getApplicationByIdQuery;
-        
-        public ApplicationsApiController(GetAllApplicationsQuery getAllApplicationsQuery, GetApplicationByIdQuery getApplicationByIdQuery)
+
+        private readonly ParameterizationStore.Client.Api.IDefaultApi _defaultApi;
+        private readonly ApiClientSettings _apiClientSettings;
+
+        public ApplicationsApiController(GetAllApplicationsQuery getAllApplicationsQuery, GetApplicationByIdQuery getApplicationByIdQuery, 
+                        ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings)
         {
             _getAllApplicationsQuery = getAllApplicationsQuery;
             _getApplicationByIdQuery = getApplicationByIdQuery;
+
+            this._defaultApi = defaultApi;
+            this._apiClientSettings = apiClientSettings;
         }
         /// <summary>
         /// Get application by given id
@@ -50,14 +62,27 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(ModelCase), description: "Application type")]
         public virtual IActionResult ApplicationIdGet([FromRoute][Required] string id)
         {
-          //  Log.Information($"Calling ApplicationIdGet with {id}");
+            //  Log.Information($"Calling ApplicationIdGet with {id}");
 
-            
-            var res = _getApplicationByIdQuery.GetApplicationByIdData(id);
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Applications.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getApplicationByIdQuery.GetApplicationByIdData(id);
 
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
 
         /// <summary>
@@ -129,12 +154,25 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         {
             //  Log.Information($"Calling ApplicationsGet");
 
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Applications.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getAllApplicationsQuery.GetAllApplications();
 
-            var res = _getAllApplicationsQuery.GetAllApplications();
-
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
     }
 }

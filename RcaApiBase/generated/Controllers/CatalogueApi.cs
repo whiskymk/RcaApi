@@ -19,6 +19,11 @@ using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
 using RcaApiBase.Model.CRUD.CQRSQueries;
 using RcaApiBase.Model.CRUD;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using RcaApiBase.Config;
+using RcaApiBase.Model.Map;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -30,9 +35,16 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     {
         private readonly GetCatalogueByTypeQuery _getCatalogueByTypeQuery;
 
-        public CatalogueApiController(GetCatalogueByTypeQuery getCatalogueByTypeQuery)
+        private readonly ParameterizationStore.Client.Api.IDefaultApi _defaultApi;
+        private readonly ApiClientSettings _apiClientSettings;
+
+        public CatalogueApiController(GetCatalogueByTypeQuery getCatalogueByTypeQuery,
+                         ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings)
         {
             _getCatalogueByTypeQuery = getCatalogueByTypeQuery;
+
+            this._defaultApi = defaultApi;
+            this._apiClientSettings = apiClientSettings;
         }
         /// <summary>
         /// Localized description
@@ -49,18 +61,27 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(string), description: "Available Catalogue")]
         public virtual IActionResult CatalogueDescriptionItemCodeLangGet([FromRoute][Required] string itemCode, [FromRoute][Required] string lang)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(string));
+            //  Log.Information($"Calling CatalogueDescriptionItemCodeLangGet");
 
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "\"\"";
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Catalogue.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getCatalogueByTypeQuery.GetCatalogueByTypeData(itemCode);
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<string>(exampleJson)
-            : default(string);            //TODO: Change the data returned
-            return new ObjectResult(example);
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
 
         /// <summary>
@@ -98,14 +119,27 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<CatalogueItem>), description: "Available Catalogue")]
         public virtual IActionResult CatalogueTypeGet([FromRoute][Required] string type)
         {
-            //  Log.Information($"Calling ReportsGet");
+            //  Log.Information($"Calling CatalogueTypeGet");
 
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Catalogue.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getCatalogueByTypeQuery.GetCatalogueByTypeData(type);
 
-            var res = _getCatalogueByTypeQuery.GetCatalogueByTypeData(type);
-
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
 
         /// <summary>

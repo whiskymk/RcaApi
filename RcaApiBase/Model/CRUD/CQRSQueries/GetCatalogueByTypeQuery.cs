@@ -32,7 +32,7 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                 {
                     data.Code = rdr["Code"].ToString();
                     data.ParentCode = rdr["ParentCode"].ToString();
-                    data.IsFavorite = (bool)rdr["IsFavorite"];
+                    data.IsFavorite = Convert.ToInt32(rdr["IsFavorite"]);
                     data.ItemType = rdr["ItemType"].ToString();
                 }
             }

@@ -17,5 +17,6 @@ namespace RcaApiBase.Config
         public string BaseAddress { get; set; }
         public string Path { get; set; }
         public bool UseJwtAuth { get; set; }
+        public bool UseDummyData { get; set; }
     }
 }

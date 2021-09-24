@@ -19,7 +19,11 @@ using Microsoft.AspNetCore.Authorization;
 using Quipu.RcaApiBase.OpenApi.Models;
 using RcaApiBase.Model.CRUD.CQRSQueries;
 using RcaApiBase.Model.CRUD;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using RcaApiBase.Config;
+using RcaApiBase.Model.Map;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -32,10 +36,17 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         private readonly GetAllReportsQuery _getAllReportsQuery;
         private readonly GetReportByIdQuery _getReportByIdQuery;
 
-        public ReportsApiController(GetAllReportsQuery getAllReportsQuery, GetReportByIdQuery getReportByIdQuery)
+        private readonly ParameterizationStore.Client.Api.IDefaultApi _defaultApi;
+        private readonly ApiClientSettings _apiClientSettings;
+
+        public ReportsApiController(GetAllReportsQuery getAllReportsQuery, GetReportByIdQuery getReportByIdQuery,
+                            ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings)
         {
             _getAllReportsQuery = getAllReportsQuery;
             _getReportByIdQuery = getReportByIdQuery;
+
+            this._defaultApi = defaultApi;
+            this._apiClientSettings = apiClientSettings;
         }
         /// <summary>
         /// Get application by given id
@@ -53,12 +64,25 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         {
             //  Log.Information($"Calling ReportIdGet with {id}");
 
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Reports.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getReportByIdQuery.GetReportByIdData(id);
 
-            var res = _getReportByIdQuery.GetReportByIdData(id);
-
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
 
         /// <summary>
@@ -135,12 +159,25 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         {
             //  Log.Information($"Calling ReportsGet");
 
+            if (_apiClientSettings.Endpoint.UseDummyData)
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = "DummyData";
+                string fullPath = Path.Combine(currentDirectory, path, "Reports.json");
+                StreamReader r = new StreamReader(fullPath);
+                string jsonString = r.ReadToEnd();
+                if (jsonString != null)
+                    return Ok(jsonString);
+                else return Ok();
+            }
+            else
+            {
+                var res = _getAllReportsQuery.GetAllReports();
 
-            var res = _getAllReportsQuery.GetAllReports();
-
-            if (res != null)
-                return Ok(res);
-            else return Ok();
+                if (res != null)
+                    return Ok(res);
+                else return Ok();
+            }
         }
     }
 }
