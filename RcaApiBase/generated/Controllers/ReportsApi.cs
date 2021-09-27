@@ -73,7 +73,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSReports data = JsonConvert.DeserializeObject<CQRSReports>(jsonString);
+                ModelCase data = JsonConvert.DeserializeObject<ModelCase>(jsonString);
 
                 if (data != null)
                     return Ok(data);
@@ -171,7 +171,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSReports data = JsonConvert.DeserializeObject<CQRSReports>(jsonString);
+                ModelCase data = JsonConvert.DeserializeObject<ModelCase>(jsonString);
 
                 if (data != null)
                     return Ok(data);

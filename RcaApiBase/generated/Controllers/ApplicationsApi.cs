@@ -25,6 +25,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using RcaApi.Domain.CQRS;
+using RcaApiBase;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -73,7 +74,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSApplication data = JsonConvert.DeserializeObject<CQRSApplication>(jsonString);
+                ModelCase data = JsonConvert.DeserializeObject<ModelCase>(jsonString);
 
                 if (data != null)
                     return Ok(data);
@@ -166,7 +167,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSApplication data = JsonConvert.DeserializeObject<CQRSApplication>(jsonString);
+                ModelCase data = JsonConvert.DeserializeObject<ModelCase>(jsonString);
 
                 if (data != null)
                     return Ok(data);

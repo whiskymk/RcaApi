@@ -72,7 +72,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSCatalogue data = JsonConvert.DeserializeObject<CQRSCatalogue>(jsonString);
+                CatalogueItem data = JsonConvert.DeserializeObject<CatalogueItem>(jsonString);
 
                 if (data != null)
                     return Ok(data);
@@ -133,7 +133,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
                 StreamReader r = new StreamReader(fullPath);
                 string jsonString = r.ReadToEnd();
 
-                CQRSCatalogue data = JsonConvert.DeserializeObject<CQRSCatalogue>(jsonString);
+                CatalogueItem data = JsonConvert.DeserializeObject<CatalogueItem>(jsonString);
 
                 if (data != null)
                     return Ok(data);
