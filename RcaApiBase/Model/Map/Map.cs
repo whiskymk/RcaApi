@@ -8,39 +8,33 @@ using static Quipu.RcaApiBase.OpenApi.Models.CatalogueItem;
 
 namespace RcaApiBase.Model.Map
 {
-    class Map
+    public class Map
     {
-        public Quipu.RcaApiBase.OpenApi.Models.ModelCase MapApplications(RcaApi.Domain.CQRS.CQRSApplication _)
+        public RcaApi.Domain.Applications ModelCaseToApplication(Quipu.RcaApiBase.OpenApi.Models.ModelCase _)
         {
-            var res = new Quipu.RcaApiBase.OpenApi.Models.ModelCase()
+            return new RcaApi.Domain.Applications()
             {
                 Id = _.Id,
-                Created = _.created,
-                Status = _.Status,
-                Title = _.Title,
-                FieldsData = _.FieldsData,
-                ItemType = _.ItemType,
+                Created = (DateTime)_.Created,
                 InternalStatus = _.InternalStatus,
-                Owner = _.Owner
+                ItemType = _.ItemType,
+                Owner = _.Owner,
+                Status = _.Status,
+                Title = _.Title                
             };
-
-            return res;
         }
-
-        public Quipu.RcaApiBase.OpenApi.Models.CatalogueItem MapCatalogue(RcaApi.Domain.CQRS.CQRSCatalogue _)
+        public RcaApi.Domain.Reports ModelCaseToReport(Quipu.RcaApiBase.OpenApi.Models.ModelCase _)
         {
-            var res = new Quipu.RcaApiBase.OpenApi.Models.CatalogueItem()
+            return new RcaApi.Domain.Reports()
             {
-                Code=_.Code,
-                ParentCode=_.ParentCode,
-                IsFavorite=_.IsFavorite
+                Id = _.Id,
+                Created = (DateTime)_.Created,
+                InternalStatus = _.InternalStatus,
+                ItemType = _.ItemType,
+                Owner = _.Owner,
+                Status = _.Status,
+                Title = _.Title
             };
-            if (_.ItemType == (int)ItemTypeEnum.ApplicationEnum)
-                res.ItemType = ItemTypeEnum.ApplicationEnum;
-            if (_.ItemType == (int)ItemTypeEnum.ReportEnum)
-                res.ItemType = ItemTypeEnum.ReportEnum;
-
-            return res;
         }
     }
 }

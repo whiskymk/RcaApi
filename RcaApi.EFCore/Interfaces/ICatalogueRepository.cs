@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace RcaApi.EFCore
 {
-    interface ICatalogueRepository : IGenericRepository<Catalogue>
+    public interface ICatalogueRepository : IGenericRepository<Catalogue>
     {
+        void CatalogueSetFavoriteItemCode(string code);
+        void CatalogueUnSetFavoriteItemCode(string code);
     }
 }

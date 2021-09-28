@@ -15,7 +15,7 @@ namespace RcaApi.Domain
     {
         [Key]
         public string Id { get; set; }
-        public string created { get; set; }
+        public DateTime Created { get; set; }
         public string Status { get; set; }
         public string Title { get; set; }
         public string ItemType { get; set; }

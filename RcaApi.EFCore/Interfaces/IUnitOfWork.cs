@@ -8,6 +8,10 @@ namespace RcaApi.EFCore.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        IApplicationsRepository Applications { get; }
+        ICatalogueRepository Catalogues { get; }
+        IReportsRepository Reports { get; }
+        
         int Complete();
     }
 }

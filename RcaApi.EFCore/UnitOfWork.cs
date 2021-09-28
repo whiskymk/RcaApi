@@ -13,7 +13,17 @@ namespace RcaApi.EFCore
         public UnitOfWork(ApplicationContext context)
         {
             _context = context;
+            Applications = new ApplicationsRepository(_context);
+            Catalogues = new CatalogueRepository(_context);
+            Reports = new ReportsRepository(_context);
         }
+
+        public IApplicationsRepository Applications { get; private set; }
+
+        public ICatalogueRepository Catalogues { get; private set; }
+
+        public IReportsRepository Reports { get; private set; }
+
         public int Complete()
         {
             return _context.SaveChanges();

@@ -7,10 +7,11 @@ using RcaApi.Domain;
 
 namespace RcaApi.EFCore
 {
-    class ApplicationsRepository : GenericRepository<Applications>, IApplicationsRepository
+    public class ApplicationsRepository : GenericRepository<Applications>, IApplicationsRepository
     {
         public ApplicationsRepository(ApplicationContext context) : base(context)
         {
+
         }
     }
 }
