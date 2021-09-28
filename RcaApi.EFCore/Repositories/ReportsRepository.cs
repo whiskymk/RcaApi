@@ -7,7 +7,7 @@ using RcaApi.Domain;
 
 namespace RcaApi.EFCore
 {
-    class ReportsRepository : GenericRepository<Reports>, IReportsRepository
+    public class ReportsRepository : GenericRepository<Reports>, IReportsRepository
     {
         public ReportsRepository(ApplicationContext context) : base(context)
         {

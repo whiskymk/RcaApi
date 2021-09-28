@@ -26,6 +26,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using RcaApi.Domain.CQRS;
 using RcaApiBase;
+using Serilog;
 
 namespace Quipu.RcaApiBase.OpenApi.Controllers
 {
@@ -37,15 +38,17 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     {
         private readonly GetAllApplicationsQuery _getAllApplicationsQuery;
         private readonly GetApplicationByIdQuery _getApplicationByIdQuery;
+        private readonly CUD _cud;
 
         private readonly ParameterizationStore.Client.Api.IDefaultApi _defaultApi;
         private readonly ApiClientSettings _apiClientSettings;
 
         public ApplicationsApiController(GetAllApplicationsQuery getAllApplicationsQuery, GetApplicationByIdQuery getApplicationByIdQuery, 
-                        ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings)
+                        ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings, CUD cud)
         {
             _getAllApplicationsQuery = getAllApplicationsQuery;
             _getApplicationByIdQuery = getApplicationByIdQuery;
+            _cud = cud;
 
             this._defaultApi = defaultApi;
             this._apiClientSettings = apiClientSettings;
@@ -103,18 +106,16 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(CaseSaveResult), description: "ID and status of application")]
         public virtual IActionResult ApplicationPost([FromBody] ModelCase body)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(CaseSaveResult));
-
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500);
-            string exampleJson = null;
-            exampleJson = "{\n  \"caseId\" : \"caseId\",\n  \"savedStatus\" : \"savedStatus\"\n}";
-
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<CaseSaveResult>(exampleJson)
-            : default(CaseSaveResult);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            try
+            {
+                _cud.ApplicationPost(body);
+                return Ok(200);
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         /// <summary>

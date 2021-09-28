@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RcaApi.EFCore
 {
-    interface IReportsRepository : IGenericRepository<Reports>
+    public interface IReportsRepository : IGenericRepository<Reports>
     {
     }
 }
