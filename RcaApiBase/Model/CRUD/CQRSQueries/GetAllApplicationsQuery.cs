@@ -36,7 +36,8 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                     data.Owner= rdr["Owner"].ToString();
                     data.Status= rdr["Status"].ToString();
                     data.Title = rdr["Title"].ToString();
-                    data.created = rdr["created"].ToString();
+                    data.FieldsData = rdr["FieldsData"].ToString();
+                    data.created = (DateTime)rdr["created"];
 
 
                     lstData.Add(data);

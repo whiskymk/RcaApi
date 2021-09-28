@@ -10,7 +10,7 @@ namespace RcaApi.Domain.CQRS
     {
         public string Code { get; set; }
         public string ParentCode { get; set; }
-        public int IsFavorite { get; set; }
-        public string ItemType { get; set; }
+        public bool IsFavorite { get; set; }
+        public int ItemType { get; set; }
     }
 }

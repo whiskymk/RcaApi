@@ -16,6 +16,11 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     public class GetApplicationByIdQuery
     {
         string connectionString = ConnectionString.CName;
+        private readonly RcaApiBase.Model.Map.Map _map;
+        public GetApplicationByIdQuery()
+        {
+            _map = new RcaApiBase.Model.Map.Map();
+        }
 
         public CQRSApplication GetApplicationByIdData(string? id)
         {
@@ -36,10 +41,12 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                     data.Owner = rdr["Owner"].ToString();
                     data.Status = rdr["Status"].ToString();
                     data.Title = rdr["Title"].ToString();
-                    data.created = rdr["created"].ToString();
+                    data.FieldsData = rdr["FieldsData"].ToString();
+                    data.created = (DateTime)rdr["created"];
                 }
             }
-            return data;
+            return _map.MapApplications(data);
+            //return data;
         }
     }
 }

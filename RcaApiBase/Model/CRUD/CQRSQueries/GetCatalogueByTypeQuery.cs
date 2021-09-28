@@ -17,7 +17,13 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     {
         string connectionString = ConnectionString.CName;
 
-        public CQRSCatalogue GetCatalogueByTypeData(string? type)
+        private readonly RcaApiBase.Model.Map.Map _map;
+        public GetCatalogueByTypeQuery()
+        {
+            _map = new RcaApiBase.Model.Map.Map();
+        }
+
+        public Quipu.RcaApiBase.OpenApi.Models.CatalogueItem GetCatalogueByTypeData(string? type)
         {
             CQRSCatalogue data = new CQRSCatalogue();
 
@@ -32,11 +38,11 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                 {
                     data.Code = rdr["Code"].ToString();
                     data.ParentCode = rdr["ParentCode"].ToString();
-                    data.IsFavorite = Convert.ToInt32(rdr["IsFavorite"]);
-                    data.ItemType = rdr["ItemType"].ToString();
+                    data.IsFavorite = (bool)rdr["IsFavorite"];
+                    data.ItemType = (int)rdr["ItemType"];
                 }
             }
-            return data;
+            return _map.MapCatalogue(data);
         }
     }
 }
