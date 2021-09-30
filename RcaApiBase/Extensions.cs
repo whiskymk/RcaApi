@@ -19,6 +19,7 @@ using RcaApiBase.Model.CRUD.CQRSQueries;
 using RcaApiBase.Model.CRUD;
 using ParameterizationStore.Client.Client;
 using RcaApiBase.Model.ParamApi;
+using RcaApi.EFCore.Interfaces;
 
 namespace RcaApiBase
 {
@@ -32,6 +33,10 @@ namespace RcaApiBase
                 options.UseSqlServer(
                 config.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
+
+            #region UnitOfWork
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            #endregion
 
             Log.Information($"DbContext is configured");
         }
@@ -58,6 +63,7 @@ namespace RcaApiBase
             services.AddScoped<GetReportByIdQuery>();
             services.AddScoped<GetCatalogueByTypeQuery>();
             services.AddScoped<Loader>();
+            services.AddScoped<RcaApiBase.Model.Map.Map>();
         }
         public static void AddApis (this IServiceCollection services)
         {
