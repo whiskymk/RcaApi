@@ -27,6 +27,23 @@ namespace RcaApiBase.Model.Map
             return res;
         }
 
+        public Quipu.RcaApiBase.OpenApi.Models.ModelCase MapReports(RcaApi.Domain.CQRS.CQRSReports _)
+        {
+            var res = new Quipu.RcaApiBase.OpenApi.Models.ModelCase()
+            {
+                Id = _.Id,
+                Created = _.created,
+                Status = _.Status,
+                Title = _.Title,
+                FieldsData = _.FieldsData,
+                ItemType = _.ItemType,
+                InternalStatus = _.InternalStatus,
+                Owner = _.Owner
+            };
+
+            return res;
+        }
+
         public Quipu.RcaApiBase.OpenApi.Models.CatalogueItem MapCatalogue(RcaApi.Domain.CQRS.CQRSCatalogue _)
         {
             var res = new Quipu.RcaApiBase.OpenApi.Models.CatalogueItem()
@@ -42,6 +59,23 @@ namespace RcaApiBase.Model.Map
 
             return res;
         }
+
+        public List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> MapListApplications(List<RcaApi.Domain.CQRS.CQRSApplication> CQRSapplications)
+        {
+            List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> applications = new List<Quipu.RcaApiBase.OpenApi.Models.ModelCase>();
+            CQRSapplications.ForEach(x => applications.Add(MapApplications(x)));
+            return applications;
+
+        }
+
+        public List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> MapListReports(List<RcaApi.Domain.CQRS.CQRSReports> CQRSreports)
+        {
+            List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> reports = new List<Quipu.RcaApiBase.OpenApi.Models.ModelCase>();
+            CQRSreports.ForEach(x => reports.Add(MapReports(x)));
+            return reports;
+
+        }
+
         public RcaApi.Domain.Applications ModelCaseToApplication(Quipu.RcaApiBase.OpenApi.Models.ModelCase _)
         {
             return new RcaApi.Domain.Applications()

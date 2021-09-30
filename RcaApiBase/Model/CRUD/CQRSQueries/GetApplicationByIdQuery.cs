@@ -22,7 +22,7 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
             _map = new RcaApiBase.Model.Map.Map();
         }
 
-        public CQRSApplication GetApplicationByIdData(string? id)
+        public Quipu.RcaApiBase.OpenApi.Models.ModelCase GetApplicationByIdData(string? id)
         {
             CQRSApplication data = new CQRSApplication();
 

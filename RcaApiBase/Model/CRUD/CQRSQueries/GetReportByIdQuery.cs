@@ -17,7 +17,13 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     {
         string connectionString = ConnectionString.CName;
 
-        public CQRSReports GetReportByIdData(string? id)
+        private readonly RcaApiBase.Model.Map.Map _map;
+        public GetReportByIdQuery()
+        {
+            _map = new RcaApiBase.Model.Map.Map();
+        }
+
+        public Quipu.RcaApiBase.OpenApi.Models.ModelCase GetReportByIdData(string? id)
         {
             CQRSReports data = new CQRSReports();
 
@@ -39,7 +45,7 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                     data.created = (DateTime)rdr["created"];
                 }
             }
-            return data;
+            return _map.MapReports(data);
         }
     }
 }

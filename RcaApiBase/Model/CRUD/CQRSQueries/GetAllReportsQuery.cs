@@ -16,8 +16,13 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
     public class GetAllReportsQuery
     {
         string connectionString = ConnectionString.CName;
+        private readonly RcaApiBase.Model.Map.Map _map;
+        public GetAllReportsQuery()
+        {
+            _map = new RcaApiBase.Model.Map.Map();
+        }
 
-        public IEnumerable<CQRSReports> GetAllReports()
+        public IEnumerable<Quipu.RcaApiBase.OpenApi.Models.ModelCase> GetAllReports()
         {
             List<CQRSReports> lstData = new List<CQRSReports>();
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -42,7 +47,8 @@ namespace RcaApiBase.Model.CRUD.CQRSQueries
                 }
                 con.Close();
             }
-            return lstData;
+            //return lstData;
+            return _map.MapListReports(lstData);
         }
     }
 }
