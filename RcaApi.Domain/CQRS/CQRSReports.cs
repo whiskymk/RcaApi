@@ -12,7 +12,7 @@ namespace RcaApi.Domain.CQRS
         public DateTime created { get; set; }
         public string Status { get; set; }
         public string Title { get; set; }
-        public Object FieldsData { get; set; }
+        public string FieldsData { get; set; }
         public string ItemType { get; set; }
         public string InternalStatus { get; set; }
         public string Owner { get; set; }

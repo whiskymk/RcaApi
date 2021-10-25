@@ -18,6 +18,9 @@ namespace RcaApi.Domain
         public DateTime Created { get; set; }
         public string Status { get; set; }
         public string Title { get; set; }
+
+        public string FieldsData { get; set; } //da se sredi
+
         public string ItemType { get; set; }
         public string InternalStatus { get; set; }
         public string Owner { get; set; }
