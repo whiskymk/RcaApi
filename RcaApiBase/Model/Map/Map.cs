@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Quipu.RcaApiBase.OpenApi.Models;
 using static Quipu.RcaApiBase.OpenApi.Models.CatalogueItem;
 
@@ -18,12 +19,13 @@ namespace RcaApiBase.Model.Map
                 Created = _.created,
                 Status = _.Status,
                 Title = _.Title,
-                FieldsData = _.FieldsData,
                 ItemType = _.ItemType,
                 InternalStatus = _.InternalStatus,
-                Owner = _.Owner
+                Owner = _.Owner,
+                FieldsData = _.FieldsData
             };
-
+        //    FieldsDefinition fd = JsonConvert.DeserializeObject<FieldsDefinition>(_.FieldsData);
+        //    res.FieldsData = fd;
             return res;
         }
 
@@ -35,12 +37,13 @@ namespace RcaApiBase.Model.Map
                 Created = _.created,
                 Status = _.Status,
                 Title = _.Title,
-                FieldsData = _.FieldsData,
                 ItemType = _.ItemType,
                 InternalStatus = _.InternalStatus,
-                Owner = _.Owner
+                Owner = _.Owner,
+                FieldsData = _.FieldsData
             };
-
+        //    FieldsDefinition fd = JsonConvert.DeserializeObject<FieldsDefinition>(_.FieldsData);
+        //    res.FieldsData = fd;
             return res;
         }
 
