@@ -62,6 +62,7 @@ namespace RcaApiBase
             services.AddScoped<GetApplicationByIdQuery>();
             services.AddScoped<GetReportByIdQuery>();
             services.AddScoped<GetCatalogueByTypeQuery>();
+            services.AddScoped<GetCatalogueByCodeQuery>();
             services.AddScoped<Loader>();
             services.AddScoped<RcaApiBase.Model.Map.Map>();
         }

@@ -63,6 +63,14 @@ namespace RcaApiBase.Model.Map
             return res;
         }
 
+        public List<Quipu.RcaApiBase.OpenApi.Models.CatalogueItem> MapListCatalogue(List<RcaApi.Domain.CQRS.CQRSCatalogue> CQRScatalogue)
+        {
+            List<Quipu.RcaApiBase.OpenApi.Models.CatalogueItem> catalogues = new List<Quipu.RcaApiBase.OpenApi.Models.CatalogueItem>();
+            CQRScatalogue.ForEach(x => catalogues.Add(MapCatalogue(x)));
+            return catalogues;
+
+        }
+
         public List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> MapListApplications(List<RcaApi.Domain.CQRS.CQRSApplication> CQRSapplications)
         {
             List<Quipu.RcaApiBase.OpenApi.Models.ModelCase> applications = new List<Quipu.RcaApiBase.OpenApi.Models.ModelCase>();

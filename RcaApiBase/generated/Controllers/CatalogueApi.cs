@@ -35,14 +35,16 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
     public class CatalogueApiController : ControllerBase
     {
         private readonly GetCatalogueByTypeQuery _getCatalogueByTypeQuery;
+        private readonly GetCatalogueByCodeQuery _getCatalogueByCodeQuery;
 
         private readonly ParameterizationStore.Client.Api.IDefaultApi _defaultApi;
         private readonly ApiClientSettings _apiClientSettings;
 
-        public CatalogueApiController(GetCatalogueByTypeQuery getCatalogueByTypeQuery,
+        public CatalogueApiController(GetCatalogueByTypeQuery getCatalogueByTypeQuery, GetCatalogueByCodeQuery getCatalogueByCodeQuery,
                          ParameterizationStore.Client.Api.IDefaultApi defaultApi, ApiClientSettings apiClientSettings)
         {
             _getCatalogueByTypeQuery = getCatalogueByTypeQuery;
+            _getCatalogueByCodeQuery = getCatalogueByCodeQuery;
 
             this._defaultApi = defaultApi;
             this._apiClientSettings = apiClientSettings;
@@ -80,7 +82,7 @@ namespace Quipu.RcaApiBase.OpenApi.Controllers
             }
             else
             {
-                var res = _getCatalogueByTypeQuery.GetCatalogueByTypeData(itemCode);
+                var res = _getCatalogueByCodeQuery.GetCatalogueByCodeData(itemCode, lang);
 
                 if (res != null)
                     return Ok(res);
