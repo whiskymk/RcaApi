@@ -19,7 +19,7 @@ namespace RcaApiBase.Model.Map
                 Created = _.created,
                 Status = _.Status,
                 Title = _.Title,
-                ItemType = _.ItemType,
+                CaseType = _.ItemType,
                 InternalStatus = _.InternalStatus,
                 Owner = _.Owner,
                 FieldsData = _.FieldsData
@@ -37,7 +37,7 @@ namespace RcaApiBase.Model.Map
                 Created = _.created,
                 Status = _.Status,
                 Title = _.Title,
-                ItemType = _.ItemType,
+                CaseType = _.ItemType,
                 InternalStatus = _.InternalStatus,
                 Owner = _.Owner,
                 FieldsData = _.FieldsData
@@ -55,10 +55,10 @@ namespace RcaApiBase.Model.Map
                 ParentCode = _.ParentCode,
                 IsFavorite = _.IsFavorite
             };
-            if (_.ItemType == (int)ItemTypeEnum.ApplicationEnum)
-                res.ItemType = ItemTypeEnum.ApplicationEnum;
-            if (_.ItemType == (int)ItemTypeEnum.ReportEnum)
-                res.ItemType = ItemTypeEnum.ReportEnum;
+            if (_.ItemType == (int)CatalogueItemTypeEnum.ApplicationEnum)
+                res.CatalogueItemType = CatalogueItemTypeEnum.ApplicationEnum;
+            if (_.ItemType == (int)CatalogueItemTypeEnum.ReportEnum)
+                res.CatalogueItemType = CatalogueItemTypeEnum.ReportEnum;
 
             return res;
         }
@@ -86,7 +86,7 @@ namespace RcaApiBase.Model.Map
                 Id = _.Id,
                 Created = (DateTime)_.Created,
                 InternalStatus = _.InternalStatus,
-                ItemType = _.ItemType,
+                ItemType = _.CaseType,
                 Owner = _.Owner,
                 Status = _.Status,
                 Title = _.Title                
@@ -99,7 +99,7 @@ namespace RcaApiBase.Model.Map
                 Id = _.Id,
                 Created = (DateTime)_.Created,
                 InternalStatus = _.InternalStatus,
-                ItemType = _.ItemType,
+                ItemType = _.CaseType,
                 Owner = _.Owner,
                 Status = _.Status,
                 Title = _.Title

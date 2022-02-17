@@ -21,25 +21,33 @@ using Newtonsoft.Json;
 namespace Quipu.RcaApiBase.OpenApi.Models
 {
     /// <summary>
-    /// generic hierarchical structure to attach additional behaviour
+    /// 
     /// </summary>
     [DataContract]
-    public partial class Tag : IEquatable<Tag>
+    public partial class ClientAccountInfo : IEquatable<ClientAccountInfo>
     {
         /// <summary>
-        /// Gets or Sets Code
+        /// Gets or Sets AccNumber
         /// </summary>
-        [Required]
 
-        [DataMember(Name = "code")]
-        public string Code { get; set; }
+        [DataMember(Name = "accNumber")]
+        public string AccNumber { get; set; }
 
         /// <summary>
-        /// Gets or Sets ParentCode
+        /// Three chars currency number UAH EUR etc.
         /// </summary>
+        /// <value>Three chars currency number UAH EUR etc.</value>
+        [RegularExpression("/[A-Z]{3}/")]
+        [DataMember(Name = "currency")]
+        public string Currency { get; set; }
 
-        [DataMember(Name = "parentCode")]
-        public string ParentCode { get; set; }
+        /// <summary>
+        /// Short information that describes account
+        /// </summary>
+        /// <value>Short information that describes account</value>
+
+        [DataMember(Name = "accountInfo")]
+        public string AccountInfo { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -48,9 +56,10 @@ namespace Quipu.RcaApiBase.OpenApi.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Tag {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  ParentCode: ").Append(ParentCode).Append("\n");
+            sb.Append("class ClientAccountInfo {\n");
+            sb.Append("  AccNumber: ").Append(AccNumber).Append("\n");
+            sb.Append("  Currency: ").Append(Currency).Append("\n");
+            sb.Append("  AccountInfo: ").Append(AccountInfo).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -73,29 +82,34 @@ namespace Quipu.RcaApiBase.OpenApi.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Tag)obj);
+            return obj.GetType() == GetType() && Equals((ClientAccountInfo)obj);
         }
 
         /// <summary>
-        /// Returns true if Tag instances are equal
+        /// Returns true if ClientAccountInfo instances are equal
         /// </summary>
-        /// <param name="other">Instance of Tag to be compared</param>
+        /// <param name="other">Instance of ClientAccountInfo to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Tag other)
+        public bool Equals(ClientAccountInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return
                 (
-                    Code == other.Code ||
-                    Code != null &&
-                    Code.Equals(other.Code)
+                    AccNumber == other.AccNumber ||
+                    AccNumber != null &&
+                    AccNumber.Equals(other.AccNumber)
                 ) &&
                 (
-                    ParentCode == other.ParentCode ||
-                    ParentCode != null &&
-                    ParentCode.Equals(other.ParentCode)
+                    Currency == other.Currency ||
+                    Currency != null &&
+                    Currency.Equals(other.Currency)
+                ) &&
+                (
+                    AccountInfo == other.AccountInfo ||
+                    AccountInfo != null &&
+                    AccountInfo.Equals(other.AccountInfo)
                 );
         }
 
@@ -109,10 +123,12 @@ namespace Quipu.RcaApiBase.OpenApi.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                if (Code != null)
-                    hashCode = hashCode * 59 + Code.GetHashCode();
-                if (ParentCode != null)
-                    hashCode = hashCode * 59 + ParentCode.GetHashCode();
+                if (AccNumber != null)
+                    hashCode = hashCode * 59 + AccNumber.GetHashCode();
+                if (Currency != null)
+                    hashCode = hashCode * 59 + Currency.GetHashCode();
+                if (AccountInfo != null)
+                    hashCode = hashCode * 59 + AccountInfo.GetHashCode();
                 return hashCode;
             }
         }
@@ -120,12 +136,12 @@ namespace Quipu.RcaApiBase.OpenApi.Models
         #region Operators
 #pragma warning disable 1591
 
-        public static bool operator ==(Tag left, Tag right)
+        public static bool operator ==(ClientAccountInfo left, ClientAccountInfo right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Tag left, Tag right)
+        public static bool operator !=(ClientAccountInfo left, ClientAccountInfo right)
         {
             return !Equals(left, right);
         }
