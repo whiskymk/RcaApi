@@ -13,22 +13,22 @@ using System.Data.SqlClient;
 
 namespace RcaApiBase.Model.CRUD.CQRSQueries
 {
-    public class GetCatalogueByTypeQuery
+    public class GetCatalogueByCodeQuery
     {
         string connectionString = ConnectionString.CName;
 
         private readonly RcaApiBase.Model.Map.Map _map;
-        public GetCatalogueByTypeQuery()
+        public GetCatalogueByCodeQuery()
         {
             _map = new RcaApiBase.Model.Map.Map();
         }
 
-        public IEnumerable<Quipu.RcaApiBase.OpenApi.Models.CatalogueItem> GetCatalogueByTypeData(string? type)
+        public IEnumerable<Quipu.RcaApiBase.OpenApi.Models.CatalogueItem> GetCatalogueByCodeData(string? code, string? lang)
         {
             List<CQRSCatalogue> lstData = new List<CQRSCatalogue>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT * FROM Catalogue WHERE ItemType= '" + type + "'";
+                string sqlQuery = "SELECT * FROM Catalogue WHERE Code= '" + code + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
